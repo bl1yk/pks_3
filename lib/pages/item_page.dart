@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pks_3/models/album.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemPage extends StatelessWidget {
   final Album album;
@@ -23,8 +24,8 @@ class ItemPage extends StatelessWidget {
             Center(
               child: Image.asset(
                 album.albumCover,
-                height: 350,
-                width: 350,
+                height: 300,
+                width: 300,
                 fit: BoxFit.cover,
               ),
             ),
@@ -34,15 +35,45 @@ class ItemPage extends StatelessWidget {
               style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            Text(
-              'Цена: \₽${album.price.toStringAsFixed(0)}',
-              style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              album.albumInfo,
-              style: const TextStyle(color: Colors.white, fontSize: 18),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Цена: \₽${album.price.toStringAsFixed(0)}',
+                style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 20),
+            const Text(
+              'Треклист:',
+              style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView(
+                children: album.tracklist.map((track) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text(
+                      track,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (await canLaunch(album.listen)) {
+                    await launch(album.listen);
+                  } else {
+                    throw 'Could not launch ${album.listen}';
+                  }
+                },
+                child: const Text('Слушать'),
+              ),
+            ),
           ],
         ),
       ),

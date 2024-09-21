@@ -26,7 +26,6 @@ class StoreItem extends StatelessWidget {
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.7,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Center(
                 child: Padding(
@@ -34,18 +33,19 @@ class StoreItem extends StatelessWidget {
                   child: Text(
                     album.albumName,
                     style: const TextStyle(color: Color.fromRGBO(246, 247, 235, 1), fontSize: 24),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
               Image.asset(
                 album.albumCover,
-                height: 250,
-                width: 250,
+                height: 300,
+                width: 300,
                 fit: BoxFit.cover,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(15.0),
                 child: RichText(
                   text: TextSpan(
                     style: const TextStyle(color: Color.fromRGBO(246, 247, 235, 1), fontSize: 16),
@@ -58,18 +58,6 @@ class StoreItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  ItemPage(album: album,)),
-                  );
-                },
-                child: const Text(
-                  'Подробнее',
-                  style: TextStyle(color: Color.fromRGBO(246, 247, 235, 1), fontSize: 16),
                 ),
               ),
             ],
